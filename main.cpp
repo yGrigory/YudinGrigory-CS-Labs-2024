@@ -104,7 +104,8 @@ int main(int, char**) {
     if (dayMinutes == kminutesEnds1) {
         std::cout << " минута ";
     }
-    if (((dayMinutes == kminutesEnds2 || dayMinutes == kminutesEnds3 || dayMinutes == kminutesEnds4) && minutes / kminutesTimeRange == kminutesEnds1) ||
+    if (((dayMinutes == kminutesEnds2 || dayMinutes == kminutesEnds3 || dayMinutes == kminutesEnds4) &&
+         minutes / kminutesTimeRange == kminutesEnds1) ||
         dayMinutes == kminutesEnds5 || dayMinutes == kminutesEnds6 || dayMinutes == kminutesEnds7 || dayMinutes == kminutesEnds8 ||
         dayMinutes == kminutesEnds9) {
         std::cout << " минут ";
