@@ -41,7 +41,7 @@ const int minutesEnds6 = 6;
 const int minutesEnds7 = 7;
 const int minutesEnds8 = 8;
 const int minutesEnds9 = 9;
-}
+}  // namespace
 
 int main(int, char**) {
     int hours = 0;
@@ -104,8 +104,7 @@ int main(int, char**) {
     if (dayMinutes == minutesEnds1) {
         std::cout << " минута ";
     }
-    if (((dayMinutes == minutesEnds2 || dayMinutes == minutesEnds3 || dayMinutes == minutesEnds4) &&
-         minutes / minutesTimeRange == minutesEnds1) ||
+    if (((dayMinutes == minutesEnds2 || dayMinutes == minutesEnds3 || dayMinutes == minutesEnds4) && minutes / minutesTimeRange == minutesEnds1) ||
         dayMinutes == minutesEnds5 || dayMinutes == minutesEnds6 || dayMinutes == minutesEnds7 || dayMinutes == minutesEnds8 ||
         dayMinutes == minutesEnds9) {
         std::cout << " минут ";
