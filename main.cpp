@@ -1,46 +1,46 @@
 #include <iostream>
 
 namespace {
-const int minHours = 0;
-const int maxHours = 24;
+const int kMinHours = 0;
+const int kMaxHours = 24;
 
-const int minMinutes = 0;
-const int maxMinutes = 60;
+const int kMinMinutes = 0;
+const int kMaxMinutes = 60;
 
-const int morningMinHours = 5;
-const int morningMaxHours = 12;
+const int kMorningMinHours = 5;
+const int kMorningMaxHours = 12;
 
-const int afternoonMinHours = 12;
-const int afternoonMaxHours = 18;
+const int kAfternoonMinHours = 12;
+const int kAfternoonMaxHours = 18;
 
-const int eveningMinHours = 18;
-const int eveningMaxHours = 23;
+const int kEveningMinHours = 18;
+const int kEveningMaxHours = 23;
 
-const int nightMinHours = 0;
-const int nightMaxHours = 5;
+const int kNightMinHours = 0;
+const int kNightMaxHours = 5;
 
-const int midDayHours = 12;
-const int midDayMinutes = 0;
+const int kMidDayHours = 12;
+const int kMidDayMinutes = 0;
 
-const int midNightHours = 0;
-const int midNightMinutes = 0;
+const int kMidNightHours = 0;
+const int kMidNightMinutes = 0;
 
-const int hoursTimeRange = 12;
-const int minutesTimeRange = 10;
+const int kHoursTimeRange = 12;
+const int kMinutesTimeRange = 10;
 
-const int nightStartHours = 1;
+const int kNightStartHours = 1;
 
-const int dayHoursBorder = 5;
+const int kDayHoursBorder = 5;
 
-const int minutesEnds1 = 1;
-const int minutesEnds2 = 2;
-const int minutesEnds3 = 3;
-const int minutesEnds4 = 4;
-const int minutesEnds5 = 5;
-const int minutesEnds6 = 6;
-const int minutesEnds7 = 7;
-const int minutesEnds8 = 8;
-const int minutesEnds9 = 9;
+const int kMinutesEnds1 = 1;
+const int kMinutesEnds2 = 2;
+const int kMinutesEnds3 = 3;
+const int kMinutesEnds4 = 4;
+const int kMinutesEnds5 = 5;
+const int kMinutesEnds6 = 6;
+const int kMinutesEnds7 = 7;
+const int kMinutesEnds8 = 8;
+const int kMinutesEnds9 = 9;
 }  // namespace
 
 int main(int, char**) {
@@ -51,81 +51,82 @@ int main(int, char**) {
 
     std::cin >> hours >> minutes;
 
-    if ((minHours > hours || hours >= maxHours) || (minMinutes > minutes || minutes >= maxMinutes)) {
+    if ((kMinHours > hours || hours >= kMaxHours) || (kMinMinutes > minutes || minutes >= kMaxMinutes)) {
         std::cout << "Ошибка ввода" << std::endl;
         return 1;
     }
-    if (hours == midDayHours && minutes == midDayMinutes) {
+    if (hours == kMidDayHours && minutes == kMidDayMinutes) {
         std::cout << "Полдень" << std::endl;
         return 0;
     }
-    if (hours == midNightHours && minutes == midNightMinutes) {
+    if (hours == kMidNightHours && minutes == kMidNightMinutes) {
         std::cout << "Полночь" << std::endl;
         return 0;
     }
 
-    if (hours == midDayHours) {
+    if (hours == kMidDayHours) {
         dayHours = hours;
     } else {
-        dayHours = hours % hoursTimeRange;
+        dayHours = hours % kHoursTimeRange;
     }
 
     std::cout << dayHours;
 
-    if (dayHours == nightStartHours) {
+    if (dayHours == kNightStartHours) {
         std::cout << " час ";
     }
-    if (dayHours > nightStartHours && dayHours < dayHoursBorder) {
+    if (dayHours > kNightStartHours && dayHours < kDayHoursBorder) {
         std::cout << " часа ";
     }
-    if (dayHours >= dayHoursBorder || dayHours == midNightHours) {
+    if (dayHours >= kDayHoursBorder || dayHours == kMidNightHours) {
         std::cout << " часов ";
     }
-    if (minutes == minMinutes) {
-        if (hours >= morningMinHours && hours < morningMaxHours) {
+    if (minutes == kMinMinutes) {
+        if (hours >= kMorningMinHours && hours < kMorningMaxHours) {
             std::cout << "утра ";
         }
-        if (hours >= afternoonMinHours && hours < afternoonMaxHours) {
+        if (hours >= kAfternoonMinHours && hours < kAfternoonMaxHours) {
             std::cout << "дня ";
         }
-        if (hours >= eveningMinHours && hours <= eveningMaxHours) {
+        if (hours >= kEveningMinHours && hours <= kEveningMaxHours) {
             std::cout << "вечера ";
         }
-        if (hours > nightMinHours && hours < nightMaxHours) {
+        if (hours > kNightMinHours && hours < kNightMaxHours) {
             std::cout << "ночи ";
         }
         std::cout << "ровно" << std::endl;
         return 0;
     }
 
-    dayMinutes = minutes % minutesTimeRange;
+    dayMinutes = minutes % kMinutesTimeRange;
     std::cout << minutes;
 
-    if (dayMinutes == minutesEnds1) {
+    if (dayMinutes == kMinutesEnds1) {
         std::cout << " минута ";
     }
-    if (((dayMinutes == minutesEnds2 || dayMinutes == minutesEnds3 || dayMinutes == minutesEnds4) && minutes / minutesTimeRange == minutesEnds1) ||
-        dayMinutes == minutesEnds5 || dayMinutes == minutesEnds6 || dayMinutes == minutesEnds7 || dayMinutes == minutesEnds8 ||
-        dayMinutes == minutesEnds9) {
+    if (((dayMinutes == kMinutesEnds2 || dayMinutes == kMinutesEnds3 || dayMinutes == kMinutesEnds4) &&
+         minutes / kMinutesTimeRange == kMinutesEnds1) ||
+        dayMinutes == kMinutesEnds5 || dayMinutes == kMinutesEnds6 || dayMinutes == kMinutesEnds7 || dayMinutes == kMinutesEnds8 ||
+        dayMinutes == kMinutesEnds9) {
         std::cout << " минут ";
     }
-    if ((dayMinutes == minutesEnds2 || dayMinutes == minutesEnds3 || dayMinutes == minutesEnds4) && minutes / minutesTimeRange != minutesEnds1) {
+    if ((dayMinutes == kMinutesEnds2 || dayMinutes == kMinutesEnds3 || dayMinutes == kMinutesEnds4) && minutes / kMinutesTimeRange != kMinutesEnds1) {
         std::cout << " минуты ";
     }
 
-    if (hours >= morningMinHours && hours < morningMaxHours) {
+    if (hours >= kMorningMinHours && hours < kMorningMaxHours) {
         std::cout << "утра" << std::endl;
         return 0;
     }
-    if (hours >= afternoonMinHours && hours < afternoonMaxHours) {
+    if (hours >= kAfternoonMinHours && hours < kAfternoonMaxHours) {
         std::cout << "дня" << std::endl;
         return 0;
     }
-    if (hours >= eveningMinHours && hours <= eveningMaxHours) {
+    if (hours >= kEveningMinHours && hours <= kEveningMaxHours) {
         std::cout << "вечера" << std::endl;
         return 0;
     }
-    if (hours > nightMinHours && hours < nightMaxHours) {
+    if (hours > kNightMinHours && hours < kNightMaxHours) {
         std::cout << "ночи" << std::endl;
         return 0;
     }
