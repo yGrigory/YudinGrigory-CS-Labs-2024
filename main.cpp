@@ -123,7 +123,10 @@ int main(int, char**) {
     }
 
     if (minutes == kMinMinutesValue) {
-        std::cout << " ровно" << std::endl;
+        std::cout << " ровно";
     }
+
+    std::cout << std::endl;
+
     return 0;
 }
