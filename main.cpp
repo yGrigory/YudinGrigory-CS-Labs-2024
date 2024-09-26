@@ -1,132 +1,104 @@
 #include <iostream>
 
 namespace {
-const int kMinHoursValue = 0;
-const int kMaxHoursValue = 23;
+const int kMinHours = 0;
+const int kMaxHours = 23;
 
-const int kMinMinutesValue = 0;
-const int kMaxMinutesValue = 59;
+const int kMinMinutes = 0;
+const int kMaxMinutes = 59;
 
-const int kMidDayHoursValue = 12;
-const int kMidDayMinutesValue = 0;
+const int kNightBegin = 0;
+const int kMorningBegin = 5;
+const int kNoonBegin = 12;
+const int kEveningBegin = 18;
 
-const int kMidNightHoursValue = 0;
-const int kMidNightMinutesValue = 0;
+const int kBeginDay = 0;
+const int kMiddleDay = 12;
+const int kEndDay = 23;
 
-const int kDecimalBase = 10;
-const int kDuodecimalBase = 12;
+const int kDecimalNumericBase = 10;
 
-const int kHoursValueInNominativeCase = 1;
+const int kTwelveHourFormatBase = 12;
 
-const int kMinHoursValueInGenetiveCaseSingular = 2;
-const int kMaxHoursValueInGenetiveCaseSingular = 4;
+const int kHourNominativeSingular = 1;
+const int kHoursGenitiveSingularBegin = 2;
+const int kHoursGenitiveSingularEnd = 4;
+const int kHoursGenitivePluralBegin = 5;
+const int kHoursGenitivePluralEnd = 12;
+const int kHourGenitivePlural = 0;
 
-const int kMinHoursValueInGenetiveCasePlural = 5;
-const int kMaxHoursValueInGenetiveCasePlural = 12;
-const int kAdditionalHoursValueInGenetiveCasePlural = 0;
-
-const int kValueOfTensPlaceInMinutesException = 1;
-
-const int kDecimalBasedMinutesValueInNominativeCase = 1;
-
-const int kMinMinutesValueInGenetiveCaseSingular = 2;
-const int kMaxMinutesValueInGenetiveCaseSingular = 4;
-
-const int kMinMinutesValueInGenetiveCasePlural = 5;
-const int kMaxMinutesValueInGenetiveCasePlural = 9;
-
-const int kMorningMinHoursValue = 5;
-const int kMorningMaxHoursValue = 11;
-
-const int kAfternoonMinHoursValue = 12;
-const int kAfternoonMaxHoursValue = 17;
-
-const int kEveningMinHoursValue = 18;
-const int kEveningMaxHoursValue = 23;
-
-const int kNightMinHoursValue = 0;
-const int kNightMaxHoursValue = 4;
+const int kMinuteNominativeSingular = 1;
+const int kMinutesGenitiveSingularBegin = 2;
+const int kMinutesGenitiveSingularEnd = 4;
+const int kMinutesGenitivePluralBegin = 11;
+const int kMinutesGenitivePluralEnd = 14;
 }  // namespace
 
 int main(int, char**) {
     int hours = 0;
     int minutes = 0;
-    int duodecimalBasedHours = 0;
-    int decimalBasedMinutes = 0;
-    int valueOfTensPlaceInMinutes = 0;
-
-    std::cout << "Введите числовое значение часов от 0 до 23 и минут от 0 до 59" << std::endl;
+    std::cout << "введите часы (от 0 до 23) и минуты ( от 0 до 59) через пробел " << std::endl;
     std::cin >> hours >> minutes;
-
-    if ((hours > kMaxHoursValue || hours < kMinHoursValue) || (minutes > kMaxMinutesValue || minutes < kMinMinutesValue)) {
-        std::cout << "Ошибка ввода" << std::endl;
+    if ((hours < kMinHours || hours > kMaxHours) || (minutes < kMinMinutes || minutes > kMaxMinutes)) {
+        std::cout << "введены недопустимые данные" << std::endl;
         return 1;
     }
-    if (hours == kMidDayHoursValue && minutes == kMidDayMinutesValue) {
-        std::cout << "Полдень" << std::endl;
-        return 0;
-    }
-    if (hours == kMidNightHoursValue && minutes == kMidNightMinutesValue) {
-        std::cout << "Полночь" << std::endl;
+
+    if ((hours == kBeginDay) && (minutes == kMinMinutes)) {
+        std::cout << "полночь" << std::endl;
         return 0;
     }
 
-    if (hours == kMidDayHoursValue) {
-        duodecimalBasedHours = hours;
-    } else {
-        duodecimalBasedHours = hours % kDuodecimalBase;
+    if ((hours == kMiddleDay) && (minutes == kMinMinutes)) {
+        std::cout << "полдень" << std::endl;
+        return 0;
     }
 
-    std::cout << duodecimalBasedHours;
+    int hoursAfterConversionFormatBase = (hours > kMiddleDay) ? (hours % kMiddleDay) : hours;
 
-    if (duodecimalBasedHours == kHoursValueInNominativeCase) {
-        std::cout << " час ";
-    }
-    if (duodecimalBasedHours >= kMinHoursValueInGenetiveCaseSingular && duodecimalBasedHours <= kMaxHoursValueInGenetiveCaseSingular) {
-        std::cout << " часа ";
-    }
-    if ((duodecimalBasedHours >= kMinHoursValueInGenetiveCasePlural && duodecimalBasedHours <= kMaxHoursValueInGenetiveCasePlural) ||
-        duodecimalBasedHours == kAdditionalHoursValueInGenetiveCasePlural) {
-        std::cout << " часов ";
+    std::cout << hoursAfterConversionFormatBase;
+    if (hoursAfterConversionFormatBase == kHourNominativeSingular) {
+        std::cout << " час";
+
+    } else if ((hoursAfterConversionFormatBase >= kHoursGenitiveSingularBegin) && (hoursAfterConversionFormatBase <= kHoursGenitiveSingularEnd)) {
+        std::cout << " часа";
+
+    } else if (((hoursAfterConversionFormatBase >= kHoursGenitivePluralBegin) && (hoursAfterConversionFormatBase <= kHoursGenitivePluralEnd)) ||
+               hoursAfterConversionFormatBase == kHourGenitivePlural) {
+        std::cout << " часов";
     }
 
-    decimalBasedMinutes = minutes % kDecimalBase;
-    valueOfTensPlaceInMinutes = minutes / kDecimalBase;
+    if (minutes != kMinMinutes) {
+        std::cout << " ";
 
-    if (minutes != kMinMinutesValue) {
         std::cout << minutes;
-    }
+        int lastDigitMinutes = minutes % kDecimalNumericBase;
+        if ((lastDigitMinutes == kMinuteNominativeSingular) && (minutes != kMinutesGenitivePluralBegin)) {
+            std::cout << " минута";
 
-    if (decimalBasedMinutes == kDecimalBasedMinutesValueInNominativeCase && valueOfTensPlaceInMinutes != kValueOfTensPlaceInMinutesException) {
-        std::cout << " минута ";
-    }
-    if ((decimalBasedMinutes >= kMinMinutesValueInGenetiveCaseSingular && decimalBasedMinutes <= kMaxMinutesValueInGenetiveCaseSingular) &&
-        valueOfTensPlaceInMinutes != kValueOfTensPlaceInMinutesException) {
-        std::cout << " минуты ";
-    }
-    if ((decimalBasedMinutes >= kMinMinutesValueInGenetiveCasePlural && decimalBasedMinutes <= kMaxMinutesValueInGenetiveCasePlural) ||
-        valueOfTensPlaceInMinutes == kValueOfTensPlaceInMinutesException) {
-        std::cout << " минут ";
-    }
+        } else if ((lastDigitMinutes >= kMinutesGenitiveSingularBegin) && (lastDigitMinutes <= kMinutesGenitiveSingularEnd) &&
+                   (minutes < kMinutesGenitivePluralBegin || minutes > kMinutesGenitivePluralEnd)) {
+            std::cout << " минуты";
 
-    if (hours >= kMorningMinHoursValue && hours <= kMorningMaxHoursValue) {
-        std::cout << "утра";
+        } else {
+            std::cout << " минут";
+        }
     }
-    if (hours >= kAfternoonMinHoursValue && hours <= kAfternoonMaxHoursValue) {
-        std::cout << "дня";
-    }
-    if (hours >= kEveningMinHoursValue && hours <= kEveningMaxHoursValue) {
-        std::cout << "вечера";
-    }
-    if (hours >= kNightMinHoursValue && hours <= kNightMinHoursValue) {
-        std::cout << "ночи";
-    }
+    if ((hours >= kMorningBegin) && (hours < kNoonBegin)) {
+        std::cout << " утра";
 
-    if (minutes == kMinMinutesValue) {
+    } else if ((hours >= kNoonBegin) && (hours < kEveningBegin)) {
+        std::cout << " дня";
+
+    } else if ((hours >= kEveningBegin) && (hours <= kEndDay)) {
+        std::cout << " вечера";
+
+    } else if ((hours >= kNightBegin) && (hours < kMorningBegin)) {
+        std::cout << " ночи";
+    }
+    if (minutes == kMinMinutes) {
         std::cout << " ровно";
     }
-
     std::cout << std::endl;
-
     return 0;
 }
