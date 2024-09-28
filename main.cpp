@@ -25,7 +25,7 @@ const int kHoursGenitiveSingularBegin = 2;
 const int kHoursGenitiveSingularEnd = 4;
 const int kHoursGenitivePluralBegin = 5;
 const int kHoursGenitivePluralEnd = 12;
-const int kHourGenitivePlural = 0;
+const int kHoursGenitivePlural = 0;
 
 const int kMinuteNominativeSingular = 1;
 const int kMinutesGenitiveSingularBegin = 2;
@@ -54,51 +54,46 @@ int main(int, char**) {
         return 0;
     }
 
-    int hoursAfterConversionFormatBase = (hours > kMiddleDay) ? (hours % kTwelveHourFormatBase) : hours;
+    int hoursTwelveHoursFormat = (hours > kMiddleDay) ? (hours % kTwelveHourFormatBase) : hours;
 
-    std::cout << hoursAfterConversionFormatBase;
-    if (hoursAfterConversionFormatBase == kHourNominativeSingular) {
+    std::cout << hoursTwelveHoursFormat;
+    if (hoursTwelveHoursFormat == kHourNominativeSingular) {
         std::cout << " час";
-
-    } else if ((hoursAfterConversionFormatBase >= kHoursGenitiveSingularBegin) && (hoursAfterConversionFormatBase <= kHoursGenitiveSingularEnd)) {
+    } else if ((hoursTwelveHoursFormat >= kHoursGenitiveSingularBegin) && (hoursTwelveHoursFormat <= kHoursGenitiveSingularEnd)) {
         std::cout << " часа";
-
-    } else if (((hoursAfterConversionFormatBase >= kHoursGenitivePluralBegin) && (hoursAfterConversionFormatBase <= kHoursGenitivePluralEnd)) ||
-               hoursAfterConversionFormatBase == kHourGenitivePlural) {
+    } else if (((hoursTwelveHoursFormat >= kHoursGenitivePluralBegin) && (hoursTwelveHoursFormat <= kHoursGenitivePluralEnd)) ||
+               hoursTwelveHoursFormat == kHoursGenitivePlural) {
         std::cout << " часов";
     }
 
     if (minutes != kMinMinutes) {
-        std::cout << " ";
+        std::cout << ' ' << minutes;
 
-        std::cout << minutes;
         int lastDigitMinutes = minutes % kDecimalNumericBase;
         if ((lastDigitMinutes == kMinuteNominativeSingular) && (minutes != kMinutesGenitivePluralBegin)) {
             std::cout << " минута";
-
         } else if ((lastDigitMinutes >= kMinutesGenitiveSingularBegin) && (lastDigitMinutes <= kMinutesGenitiveSingularEnd) &&
                    (minutes < kMinutesGenitivePluralBegin || minutes > kMinutesGenitivePluralEnd)) {
             std::cout << " минуты";
-
         } else {
             std::cout << " минут";
         }
     }
+
     if ((hours >= kMorningBegin) && (hours < kNoonBegin)) {
         std::cout << " утра";
-
     } else if ((hours >= kNoonBegin) && (hours < kEveningBegin)) {
         std::cout << " дня";
-
     } else if ((hours >= kEveningBegin) && (hours <= kEndDay)) {
         std::cout << " вечера";
-
     } else if ((hours >= kNightBegin) && (hours < kMorningBegin)) {
         std::cout << " ночи";
     }
+
     if (minutes == kMinMinutes) {
         std::cout << " ровно";
     }
+
     std::cout << std::endl;
     return 0;
 }
