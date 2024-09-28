@@ -54,7 +54,7 @@ int main(int, char**) {
         return 0;
     }
 
-    int hoursAfterConversionFormatBase = (hours > kMiddleDay) ? (hours % kMiddleDay) : hours;
+    int hoursAfterConversionFormatBase = (hours > kMiddleDay) ? (hours % kTwelveHourFormatBase) : hours;
 
     std::cout << hoursAfterConversionFormatBase;
     if (hoursAfterConversionFormatBase == kHourNominativeSingular) {
