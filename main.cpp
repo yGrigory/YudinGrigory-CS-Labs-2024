@@ -71,8 +71,8 @@ void CalculateTaylorRow(double x) {
         n++;
     }
 
-    std::cout << std::setw(kFixedWidth) << x << std::setw(kFixedWidth) << std::setprecision(kFixedPrecision) << y << std::setw(kFixedWidth) << std::setprecision(kFixedPrecision) << 2 * s << std::setw(kFixedWidth)
-              << n << std::endl;
+    std::cout << std::setw(kFixedWidth) << x << std::setw(kFixedWidth) << std::setprecision(kFixedPrecision) << y << std::setw(kFixedWidth)
+              << std::setprecision(kFixedPrecision) << 2 * s << std::setw(kFixedWidth) << n << std::endl;
 }
 
 void Task3() {
@@ -80,7 +80,8 @@ void Task3() {
     const int rangeEnd = 1;
     double x = 0;
 
-    std::cout << std::setw(kFixedWidth) << "x" << std::setw(kFixedWidth) << "Y" << std::setw(kFixedWidth) << "s" << std::setw(kFixedWidth) << "n" << std::endl;
+    std::cout << std::setw(kFixedWidth) << "x" << std::setw(kFixedWidth) << "Y" << std::setw(kFixedWidth) << "s" << std::setw(kFixedWidth) << "n"
+              << std::endl;
 
     while (x < rangeEnd) {
         CalculateTaylorRow(x);
