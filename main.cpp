@@ -58,7 +58,7 @@ void Task2() {
     double product = 1.0;
     if (a >= 0) {
         for (int i = rangeNotNegativeAStart; i <= rangeNotNegativeAEnd; i += 2) {
-            product *= (i * i) - a;
+            product *= (i * i);
         }
         product -= a;
     } else {
@@ -67,7 +67,7 @@ void Task2() {
         }
     }
 
-    std::cout << "Произведение: " << product << std::endl;
+    std::cout << "Произведение: " << std::fixed << std::setprecision(kTask3PrecisionY) << product << std::endl;
 }
 
 void CalculateTaylorSeries(double x) {
@@ -113,13 +113,21 @@ void Task4() {
     const int n1 = 3;
     const int n2 = 5;
     const int n3 = 10;
-    const int rangeStart = 1;
-    double y = x;
+    const int rangeStart = 2;
 
-    for (int i = rangeStart; i <= n; ++i) {
-        y += (pow(x, i + 1)) / (i * pow(2, i));
-        if (i == n1 || i == n2 || i == n3 || i == n) {
-            std::cout << "Для n = " << i << ", Y = " << y << std::endl;
+    double y = x + (x * x / 2);
+    double prevSeriesElem = x * x / 2;
+
+    if (n == 1) {
+        std::cout << "Для n = " << n << ", Y = " << y << std::endl;
+    } else {
+        for (int i = rangeStart; i <= n; ++i) {
+            double k = x * (i - 1) / (2 * i);
+            prevSeriesElem *= k;
+            y += prevSeriesElem;
+            if (i == n1 || i == n2 || i == n3 || i == n) {
+                std::cout << "Для n = " << i << ", Y = " << y << std::endl;
+            }
         }
     }
 }
