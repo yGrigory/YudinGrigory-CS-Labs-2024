@@ -93,7 +93,6 @@ namespace Calculation {
 
 namespace Run {
 void RunNewtonsMethod() {
-    int iterationsCount = 0;
     double epsilon = {};
     double coefficient = {};
     double initialApproximation = {};
