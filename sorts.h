@@ -4,11 +4,25 @@ enum class Option {
 };
 
 namespace Run {
-    void RunSelectionSort();
-    void RunBubbleSort();
-}
+void RunSelectionSort();
+void RunBubbleSort();
+}  // namespace Run
 
 namespace Calculation {
-    [[nodiscard]] double CalculateSelectionSort();
-    [[nodiscard]] double CalculateBubbleSort();
+int* CalculateSelectionSort(int* arr, size_t arrSize);
 }
+
+const int kStaticArrSize = 10;
+
+namespace Generate {
+[[nodiscard]] int* GenerateArr(size_t arrSize = kStaticArrSize);
+}
+namespace Result {
+struct FunctionResult {
+    int* arr;
+    int permutationsCount;
+    int comparisonsCount;
+};
+
+void PrintResult(int* arr, size_t arrSize);
+}  // namespace Result
