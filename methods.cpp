@@ -68,11 +68,9 @@ namespace Calculation {
     int iterationsCount = 0;
     double middleRangeValue = 0.0;
     double calculatedMiddleRangeValue = 0.0;
-    double calculatedLeftRangeValue = 0.0;
     double calculatedRightRangeValue = 0.0;
 
     while (fabs(rightRangeLimit - leftRangeLimit) > epsilon && iterationsCount < kmaxIterationsCount) {
-        calculatedLeftRangeValue = CalculateFHalfCoefficientMethod(leftRangeLimit, coefficient);
         calculatedRightRangeValue = CalculateFHalfCoefficientMethod(rightRangeLimit, coefficient);
         middleRangeValue = (leftRangeLimit + rightRangeLimit) / 2;
         calculatedMiddleRangeValue = CalculateFHalfCoefficientMethod(middleRangeValue, coefficient);
