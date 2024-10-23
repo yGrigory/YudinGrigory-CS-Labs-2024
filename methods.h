@@ -10,7 +10,7 @@ void inputProcessing(Option option);
 }  // namespace Menu
 
 namespace Result {
-struct FunctionResult {
+struct MethodResult {
     double x;
     int iterationsCount;
 };
@@ -24,8 +24,8 @@ void RunHalfCoefficientMethod();
 }  // namespace Run
 
 namespace Calculation {
-[[nodiscard]] Result::FunctionResult CalculateIterationMethod(double epsilon, double coefficient);
-[[nodiscard]] Result::FunctionResult CalculateNewtonsMethod(double initialApproximation, double epsilon, double coefficient);
-[[nodiscard]] Result::FunctionResult CalculateHalfCoefficientMethod(double leftRangeLimit, double rightRangeLimit, double epsilon,
+[[nodiscard]] Result::MethodResult CalculateIterationMethod(double epsilon, double coefficient);
+[[nodiscard]] Result::MethodResult CalculateNewtonsMethod(double initialApproximation, double epsilon, double coefficient);
+[[nodiscard]] Result::MethodResult CalculateHalfCoefficientMethod(double leftRangeLimit, double rightRangeLimit, double epsilon,
                                                                     double coefficient);
 }  // namespace Calculation

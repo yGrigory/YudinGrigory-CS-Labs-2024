@@ -22,7 +22,7 @@ const int kmaxIterationsCount = 1e8 - 1;
 }  // namespace
 
 namespace Result {
-struct FunctionResult {
+struct MethodResult {
     double x;
     int iterationsCount;
 };
@@ -34,7 +34,7 @@ void printResult(double x, int iterationsCount) {
 }  // namespace Result
 
 namespace Calculation {
-[[nodiscard]] Result::FunctionResult CalculateIterationMethod(double epsilon, double coefficient) {
+[[nodiscard]] Result::MethodResult CalculateIterationMethod(double epsilon, double coefficient) {
     double x = 0.0;
     int iterationsCount = 0;
 
@@ -43,12 +43,12 @@ namespace Calculation {
         ++iterationsCount;
     }
 
-    Result::FunctionResult result = {x, iterationsCount};
+    Result::MethodResult result = {x, iterationsCount};
 
     return result;
 }
 
-[[nodiscard]] Result::FunctionResult CalculateNewtonsMethod(double initialApproximation, double epsilon, double coefficient) {
+[[nodiscard]] Result::MethodResult CalculateNewtonsMethod(double initialApproximation, double epsilon, double coefficient) {
     int iterationsCount = 0;
     double x = initialApproximation;
     double f{};
@@ -61,12 +61,12 @@ namespace Calculation {
         ++iterationsCount;
     }
 
-    Result::FunctionResult result = {x, iterationsCount};
+    Result::MethodResult result = {x, iterationsCount};
 
     return result;
 }
 
-[[nodiscard]] Result::FunctionResult CalculateHalfCoefficientMethod(double leftRangeLimit, double rightRangeLimit, double epsilon,
+[[nodiscard]] Result::MethodResult CalculateHalfCoefficientMethod(double leftRangeLimit, double rightRangeLimit, double epsilon,
                                                                     double coefficient) {
     int iterationsCount = 0;
     double middleRangeValue = 0.0;
@@ -86,7 +86,7 @@ namespace Calculation {
         ++iterationsCount;
     }
 
-    Result::FunctionResult result = {middleRangeValue, iterationsCount};
+    Result::MethodResult result = {middleRangeValue, iterationsCount};
 
     return result;
 }
@@ -105,7 +105,7 @@ void RunNewtonsMethod() {
     std::cout << "Введите коэффициент уравнения при std::cos(x): ";
     std::cin >> coefficient;
 
-    Result::FunctionResult NewtonsMethodResult = Calculation::CalculateNewtonsMethod(initialApproximation, epsilon, coefficient);
+    Result::MethodResult NewtonsMethodResult = Calculation::CalculateNewtonsMethod(initialApproximation, epsilon, coefficient);
 
     if (NewtonsMethodResult.iterationsCount == kmaxIterationsCount) {
         std::cout << std::endl << "Введите другой коэффициент перед std::cos(x) или другое начальное приближение: " << std::endl;
@@ -129,7 +129,7 @@ void RunHalfCoefficientMethod() {
     std::cout << "Введите коэффициент уравнения при std::cos(x): ";
     std::cin >> coefficient;
 
-    Result::FunctionResult HalfCoefficientMethodResult =
+    Result::MethodResult HalfCoefficientMethodResult =
         Calculation::CalculateHalfCoefficientMethod(leftRangeLimit, rightRangeLimit, epsilon, coefficient);
 
     if (HalfCoefficientMethodResult.iterationsCount == kmaxIterationsCount) {
@@ -147,7 +147,7 @@ void RunIterationMethod() {
     std::cout << "Введите коэффициент уравнения при std::cos(x): ";
     std::cin >> coefficient;
 
-    Result::FunctionResult IterationMethodResult = Calculation::CalculateIterationMethod(epsilon, coefficient);
+    Result::MethodResult IterationMethodResult = Calculation::CalculateIterationMethod(epsilon, coefficient);
 
     if (IterationMethodResult.iterationsCount == kmaxIterationsCount) {
         std::cout << std::endl << "Введите другой коэффициент при std::cos(x) или другую погрешность" << std::endl;
