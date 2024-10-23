@@ -1,9 +1,12 @@
+#include <iostream>
+
 enum class Option {
     Option1 = 1,
     Option2 = 2
 };
 
 namespace Run {
+void start();
 void RunSelectionSort();
 void RunBubbleSort();
 }  // namespace Run
@@ -24,5 +27,5 @@ struct FunctionResult {
     int comparisonsCount;
 };
 
-void PrintResult(int* arr, size_t arrSize);
+void PrintResult(FunctionResult result, size_t arrSize);
 }  // namespace Result

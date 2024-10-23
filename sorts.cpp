@@ -12,6 +12,10 @@ struct FunctionResult {
     int permutationsCount;
     int comparisonsCount;
 };
+void PrintResult(FunctionResult result, size_t arrSize) {
+    std::cout << "Количестов сравнений: " << result.comparisonsCount << std::endl;
+    std::cout << "Количество перестановок: " << result.permutationsCount << std::endl << std::endl;
+}
 
 }  // namespace Result
 
@@ -47,3 +51,9 @@ namespace Generate {
     return arr;
 }
 }  // namespace Generate
+
+namespace Run {
+void start() {
+    int* arr = Generate::GenerateArr();
+}
+}  // namespace Run
