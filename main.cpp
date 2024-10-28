@@ -1,5 +1,5 @@
-#include "methods.h"
+#include "TrigonometricEquationSolver.h"
 
 int main(int, char**) {
-    Menu::start();
+    TrigonometricEquationSolver::StartApp();
 }
