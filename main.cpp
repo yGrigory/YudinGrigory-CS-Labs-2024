@@ -1,5 +1,5 @@
-#include "sorts.h"
+#include "sorting.h"
 
 int main(int, char**) {
-    Run::start();
+    Sorting::StartApp();
 }
