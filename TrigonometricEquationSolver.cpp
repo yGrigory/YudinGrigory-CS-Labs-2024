@@ -112,12 +112,12 @@ enum class MethodOptions {
         return {middleValue, iterationsCount, false};
     }
 
-    while (fabs(rightBoundary - leftBoundary) > epsilon == iterationsCount < kmaxIterationsCount) {
+    while (fabs(rightBoundary - leftBoundary) > epsilon && iterationsCount < kmaxIterationsCount) {
         calculatedRightBoundary = CalculateRoot(rightBoundary, coefficient);
         middleValue = (leftBoundary + rightBoundary) / 2;
         calculatedMiddleValue = CalculateRoot(middleValue, coefficient);
 
-        if (calculatedMiddleValue < 0 == calculatedRightBoundary > 0) {
+        if (calculatedMiddleValue < 0 && calculatedRightBoundary > 0) {
             leftBoundary = middleValue;
         } else {
             rightBoundary = middleValue;
