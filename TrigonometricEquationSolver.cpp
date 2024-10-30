@@ -3,18 +3,13 @@
 #include <iostream>
 
 namespace {
-const int kmaxIterationsCount = 1e8 - 1;
+const int kmaxIterations = 1e8 - 1;
 
 struct MethodResult {
     double x;
     int iterationsCount;
     bool isRoot = true;
-};
-
-enum class MethodOptions {
-    IterationMethod = 1,
-    NewtonsMethod = 2,
-    BisectionMethod = 3,
+    bool isMaxIterationsError = true;
 };
 
 struct InputData {
@@ -22,9 +17,9 @@ struct InputData {
     double coefficient;
 };
 
-void PrintResult(double x, int iterationsCount, int precision) {
-    std::cout << std::endl << "Приближённое значение корня уравнения: " << std::fixed << std::setprecision(precision) << x << std::endl;
-    std::cout << "Количество итераций: " << iterationsCount << std::endl << std::endl;
+void PrintResult(MethodResult result, int precision) {
+    std::cout << std::endl << "Приближённое значение корня уравнения: " << std::fixed << std::setprecision(precision) << result.x << std::endl;
+    std::cout << "Количество итераций: " << result.iterationsCount << std::endl << std::endl;
 }
 
 [[nodiscard]] double CalculateIterationMethodX(double coefficient, double x) {
@@ -66,14 +61,14 @@ enum class MethodOptions {
     double x = 0.0;
     int iterationsCount = 0;
 
-    while (fabs(coefficient * std::cos(x) - x) >= epsilon && iterationsCount < kmaxIterationsCount) {
+    while (std::abs(coefficient * std::cos(x) - x) >= epsilon && iterationsCount < kmaxIterations) {
         x = CalculateIterationMethodX(coefficient, x);
         ++iterationsCount;
     }
 
     MethodResult result = {x, iterationsCount};
 
-    if (iterationsCount == kmaxIterationsCount) {
+    if (iterationsCount == kmaxIterations) {
         result.isRoot = false;
     }
 
@@ -86,7 +81,7 @@ enum class MethodOptions {
     double f{};
     double derivativeF{};
 
-    while (fabs(CalculateRoot(x, coefficient)) >= epsilon && iterationsCount < kmaxIterationsCount) {
+    while (std::abs(CalculateRoot(x, coefficient)) >= epsilon && iterationsCount < kmaxIterations) {
         f = CalculateRoot(x, coefficient);
         derivativeF = CalculateDerivative(CalculateRoot, x, coefficient);
         x = x - f / derivativeF;
@@ -95,7 +90,7 @@ enum class MethodOptions {
 
     MethodResult result = {x, iterationsCount};
 
-    if (iterationsCount == kmaxIterationsCount) {
+    if (iterationsCount == kmaxIterations) {
         result.isRoot = false;
     }
 
@@ -108,11 +103,14 @@ enum class MethodOptions {
     double calculatedMiddleValue = 0.0;
     double calculatedRightBoundary = 0.0;
 
+    if (CalculateRoot(leftBoundary, coefficient) * CalculateRoot(rightBoundary, coefficient) > 0) {
+        return {middleValue, iterationsCount, false, false};
+    }
     if (leftBoundary > rightBoundary) {
         return {middleValue, iterationsCount, false};
     }
 
-    while (fabs(rightBoundary - leftBoundary) > epsilon && iterationsCount < kmaxIterationsCount) {
+    while (std::abs(rightBoundary - leftBoundary) > epsilon && iterationsCount < kmaxIterations) {
         calculatedRightBoundary = CalculateRoot(rightBoundary, coefficient);
         middleValue = (leftBoundary + rightBoundary) / 2;
         calculatedMiddleValue = CalculateRoot(middleValue, coefficient);
@@ -127,7 +125,7 @@ enum class MethodOptions {
 
     MethodResult result = {middleValue, iterationsCount};
 
-    if (iterationsCount == kmaxIterationsCount) {
+    if (iterationsCount == kmaxIterations) {
         result.isRoot = false;
     }
 
@@ -146,7 +144,7 @@ void RunNewtonsMethod() {
     if (!NewtonsMethodResult.isRoot) {
         std::cout << std::endl << "Введите другой коэффициент перед cos(x) или другое начальное приближение: " << std::endl;
     } else {
-        PrintResult(NewtonsMethodResult.x, NewtonsMethodResult.iterationsCount, static_cast<int>(fabs(log10(result.epsilon))));
+        PrintResult(NewtonsMethodResult, static_cast<int>(std::abs(log10(result.epsilon))));
     }
 }
 
@@ -164,10 +162,12 @@ void RunBisectionMethod() {
     MethodResult BisectionMethodResult =
         TrigonometricEquationSolver::CalculateBisectionMethod(leftBoundary, rightBoundary, result.epsilon, result.coefficient);
 
-    if (!BisectionMethodResult.isRoot) {
+    if (!BisectionMethodResult.isMaxIterationsError) {
+        std::cout << std::endl << "В заданном диапазоне не существует корней" << std::endl;
+    } else if (!BisectionMethodResult.isRoot) {
         std::cout << std::endl << "Введите другой диапазон, погрешность или коэффициент при cos(x)" << std::endl;
     } else {
-        PrintResult(BisectionMethodResult.x, BisectionMethodResult.iterationsCount, static_cast<int>(fabs(log10(result.epsilon))));
+        PrintResult(BisectionMethodResult, static_cast<int>(std::abs(log10(result.epsilon))));
     }
 }
 void RunIterationMethod() {
@@ -178,7 +178,7 @@ void RunIterationMethod() {
     if (!IterationMethodResult.isRoot) {
         std::cout << std::endl << "Введите другой коэффициент при cos(x) или другую погрешность" << std::endl;
     } else {
-        PrintResult(IterationMethodResult.x, IterationMethodResult.iterationsCount, static_cast<int>(fabs(log10(result.epsilon))));
+        PrintResult(IterationMethodResult, static_cast<int>(std::abs(log10(result.epsilon))));
     }
 }
 

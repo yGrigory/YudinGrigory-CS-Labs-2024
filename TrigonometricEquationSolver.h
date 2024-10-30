@@ -9,6 +9,7 @@ struct MethodResult {
     double x;
     int iterationsCount;
     bool isRoot = true;
+    bool isMaxIterationsError = true;
 };
 
 void StartApp();
