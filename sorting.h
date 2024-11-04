@@ -8,8 +8,8 @@ const int kminPermutationsCount = 0;
 
 namespace Sorting {
 enum class ArrayOptions {
-    SelectionSort = 1,
-    BubbleSort = 2
+    StaticArray = 1,
+    DynamicArray = 2
 };
 struct FunctionResult {
     int* arr;
@@ -25,6 +25,6 @@ struct FunctionResult {
 void PrintResult(FunctionResult result, size_t arraySize);
 
 void StartApp();
-void RunSelectionSort();
-void RunBubbleSort();
+void RunStaticArraySort();
+void RunDynamicArraySort();
 }  // namespace Sorting

@@ -2,7 +2,7 @@
 #include <random>
 
 namespace {
-const int kStaticArraySize = 10;
+const size_t kStaticArraySize = 10;
 const int kMinArrayElement = 0;
 const int kMaxArrayElement = 99;
 const int kRangeStart = 0;
@@ -11,8 +11,8 @@ const int kminPermutationsCount = 0;
 
 namespace Sorting {
 enum class ArrayOptions {
-    SelectionSort = 1,
-    BubbleSort = 2,
+    StaticArray = 1,
+    DynamicArray = 2,
 };
 struct FunctionResult {
     int* array;
@@ -25,7 +25,7 @@ void PrintSourceArray(int* array, size_t arraySize) {
     for (size_t i = kRangeStart; i < arraySize; ++i) {
         std::cout << array[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << std::endl << std::endl;
 }
 void PrintResult(FunctionResult result, size_t arraySize, bool isStatic, bool isAscending) {
     if (isStatic) {
@@ -46,8 +46,8 @@ void PrintResult(FunctionResult result, size_t arraySize, bool isStatic, bool is
 }
 
 void PrintMenu() {
-    std::cout << "1 - Сортировка выбором" << std::endl;
-    std::cout << "2 - Пузырьковая сортировка" << std::endl;
+    std::cout << "1 - Сортировка статического массива" << std::endl;
+    std::cout << "2 - Сортировка динамического массива" << std::endl;
     std::cout << "Введите (1 или 2): ";
 }
 
@@ -71,15 +71,21 @@ void PrintMenu() {
 [[nodiscard]] FunctionResult CalculateBubbleSortDiscending(int* array, size_t arraySize = kStaticArraySize) {
     int comparisonsCount = 0;
     int permutationsCount = 0;
+    int permutationsPerPassCount = 0;
 
     for (size_t i = kRangeStart; i < arraySize; ++i) {
+        permutationsPerPassCount = 0;
         for (size_t j = i + 1; j < arraySize; ++j) {
             ++comparisonsCount;
             if (array[j] > array[i]) {
                 std::swap(array[i], array[j]);
-                ++permutationsCount;
+                ++permutationsPerPassCount;
             }
         }
+        if (permutationsPerPassCount == kminPermutationsCount) {
+            return FunctionResult{array, permutationsCount, comparisonsCount};
+        }
+        permutationsCount += permutationsPerPassCount;
     }
     FunctionResult result = {array, permutationsCount, comparisonsCount};
     return result;
@@ -105,21 +111,20 @@ void PrintMenu() {
 [[nodiscard]] FunctionResult CalculateBubbleSortAcending(int* array, size_t arraySize = kStaticArraySize) {
     int comparisonsCount = 0;
     int permutationsCount = 0;
-    int permutationsPerPassCount = 0;
 
-    for (size_t i = kRangeStart; i + 1 < arraySize; ++i) {
-        permutationsPerPassCount = 0;
-        for (size_t j = kRangeStart; j + 1 < arraySize - i; ++j) {
+    for (size_t i = kRangeStart; i < arraySize - 1; ++i) {
+        bool isSorted = true;
+        for (size_t j = kRangeStart; j < arraySize - i - 1; ++j) {
             ++comparisonsCount;
             if (array[j + 1] < array[j]) {
                 std::swap(array[j], array[j + 1]);
-                ++permutationsPerPassCount;
+                ++permutationsCount;
+                isSorted = false;
             }
         }
-        if (permutationsPerPassCount == 0) {
-            return FunctionResult{array, permutationsCount, comparisonsCount};
+        if (isSorted) {
+            break;
         }
-        permutationsCount += permutationsPerPassCount;
     }
     return FunctionResult{array, permutationsCount, comparisonsCount};
 }
@@ -136,16 +141,27 @@ void PrintMenu() {
     return array;
 }
 
-void RunSelectionSort(int* array, int arraySize, bool isStatic) {
+void RunStaticArraySort(int* array, int arraySize, bool isStatic) {
     PrintSourceArray(array, arraySize);
-    PrintResult(CalculateSelectionSortAcending(array), arraySize, isStatic, true);
-    PrintResult(CalculateSelectionSortDiscending(array), arraySize, isStatic, false);
+
+    int* selectionSortArray = array;
+
+    PrintResult(CalculateSelectionSortAcending(selectionSortArray), arraySize, isStatic, true);
+    PrintResult(CalculateSelectionSortAcending(selectionSortArray), arraySize, isStatic, true);
+    PrintResult(CalculateSelectionSortDiscending(selectionSortArray), arraySize, isStatic, false);
+
+    int* bubbleSortArray = array;
+
+    PrintResult(CalculateBubbleSortAcending(bubbleSortArray), arraySize, isStatic, true);
+    PrintResult(CalculateBubbleSortAcending(bubbleSortArray), arraySize, isStatic, true);
+    PrintResult(CalculateBubbleSortDiscending(bubbleSortArray), arraySize, isStatic, false);
 }
 
-void RunBubbleSort(int* array, int arraySize, bool isStatic) {
+void RunDynamicArraySort(int* array, int arraySize, bool isStatic) {
     PrintSourceArray(array, arraySize);
-    PrintResult(CalculateBubbleSortAcending(array), arraySize, isStatic, true);
-    PrintResult(CalculateBubbleSortDiscending(array), arraySize, isStatic, false);
+    PrintResult(CalculateBubbleSortAcending(array, arraySize), arraySize, isStatic, true);
+    PrintResult(CalculateBubbleSortAcending(array, arraySize), arraySize, isStatic, true);
+    PrintResult(CalculateBubbleSortDiscending(array, arraySize), arraySize, isStatic, false);
 }
 
 void StartApp() {
@@ -157,20 +173,21 @@ void StartApp() {
         int task{};
         std::cin >> task;
 
-        std::cout << "Введите размер для динамического массива: ";
         int dynamicArraySize{};
-        std::cin >> dynamicArraySize;
-
-        int* staticArray = GenerateArray();
-        int* dynamicArray = GenerateArray(dynamicArraySize);
+        int* staticArray{};
+        int* dynamicArray{};
         switch (static_cast<ArrayOptions>(task)) {
-            case ArrayOptions::SelectionSort:
-                RunSelectionSort(staticArray, kStaticArraySize, true);
-                RunSelectionSort(dynamicArray, dynamicArraySize, false);
+            case ArrayOptions::StaticArray:
+                staticArray = GenerateArray();
+                RunStaticArraySort(staticArray, kStaticArraySize, true);
+                delete[] staticArray;
                 break;
-            case ArrayOptions::BubbleSort:
-                RunBubbleSort(staticArray, kStaticArraySize, true);
-                RunBubbleSort(dynamicArray, dynamicArraySize, false);
+            case ArrayOptions::DynamicArray:
+                std::cout << "Введите размер для динамического массива: ";
+                std::cin >> dynamicArraySize;
+                dynamicArray = GenerateArray(dynamicArraySize);
+                RunDynamicArraySort(dynamicArray, dynamicArraySize, false);
+                delete[] dynamicArray;
                 break;
             default:
                 break;
