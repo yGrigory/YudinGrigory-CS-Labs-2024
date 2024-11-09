@@ -116,7 +116,7 @@ void PrintResult(FunctionResult result, int* array, bool isStatic) {
             }
             std::swap(array[i], array[elementIndex]);
         }
-        }
+    }
     return FunctionResult{permutationsCount, comparisonsCount, isAscending, arraySize};
 }
 
@@ -135,28 +135,27 @@ void RunMethodsOutputFunctions(int* array, bool isSelectionSort, size_t arraySiz
 }
 
 void RunStaticArraySort(int* array) {
-
     int selectionSortArray[kStaticArraySize];
-    std::copy(array, array+kStaticArraySize, selectionSortArray);
+    std::copy(array, array + kStaticArraySize, selectionSortArray);
 
     RunMethodsOutputFunctions(selectionSortArray, true, kStaticArraySize, true);
 
     int bubbleSortArray[kStaticArraySize];
-    std::copy(array, array+kStaticArraySize, bubbleSortArray);
+    std::copy(array, array + kStaticArraySize, bubbleSortArray);
 
     RunMethodsOutputFunctions(bubbleSortArray, false, kStaticArraySize, true);
 }
 
 void RunDynamicArraySort(int* array, size_t arraySize) {
     int* selectionSortArray = new int[arraySize];
-    std::copy(array, array+arraySize, selectionSortArray);
+    std::copy(array, array + arraySize, selectionSortArray);
 
     RunMethodsOutputFunctions(selectionSortArray, true, arraySize, false);
 
     delete[] selectionSortArray;
 
     int* bubbleSortArray = new int[arraySize];
-    std::copy(array, array+arraySize, bubbleSortArray);
+    std::copy(array, array + arraySize, bubbleSortArray);
 
     RunMethodsOutputFunctions(bubbleSortArray, false, arraySize, false);
 
