@@ -1,30 +1,25 @@
 #include <iostream>
 
-const int kStaticArraySize = 10;
-const int kMinArrElement = 0;
-const int kMaxArrElement = 99;
-const int kRangeStart = 0;
-const int kminPermutationsCount = 0;
-
 namespace Sorting {
-enum class ArrayOptions {
+const int kStaticArraySize = 10;
+
+enum class ArrayType {
     StaticArray = 1,
     DynamicArray = 2
 };
+
 struct FunctionResult {
     int* arr;
     int permutationsCount;
     int comparisonsCount;
 };
 
-[[nodiscard]] FunctionResult CalculateAscendingSelectionSort(int* array, size_t arraySize = kStaticArraySize);
-[[nodiscard]] FunctionResult CalculateAscendingBubbleSort(int* array, size_t arraySize = kStaticArraySize);
+[[nodiscard]] FunctionResult CalculateBubbleSort(int* array, bool isAscending, int arraySize);
+[[nodiscard]] FunctionResult CalculateSelectionSort(int* array, bool isAscending, int arraySize);
 
-[[nodiscard]] int* GenerateArray(size_t arraySize = kStaticArraySize);
-
-void PrintResult(FunctionResult result, size_t arraySize);
-
-void StartApp();
 void RunStaticArraySort();
 void RunDynamicArraySort();
+
+void SelectTask();
+void StartApp();
 }  // namespace Sorting
