@@ -52,8 +52,8 @@ void PrintSortingType(bool isSelectionSort) {
     std::cout << "-------------------------------------" << std::endl;
 }
 
-void PrintResult(FunctionResult result, int* array, bool isStatic) {
-    if (isStatic) {
+void PrintResult(FunctionResult result, int* array, bool isStaticArray) {
+    if (isStaticArray) {
         std::cout << "Статический массив, отсортированный ";
     } else {
         std::cout << "Динамический массив, отсортированный ";
@@ -120,17 +120,27 @@ void PrintResult(FunctionResult result, int* array, bool isStatic) {
     return FunctionResult{permutationsCount, comparisonsCount, isAscending, arraySize};
 }
 
-void RunMethodsOutputFunctions(int* array, bool isSelectionSort, size_t arraySize, bool isStatic) {
+void RunMethodsOutputFunctions(int* array, bool isSelectionSort, size_t arraySize, bool isStaticArray) {
     PrintSortingType(isSelectionSort);
     PrintSourceArray(array, arraySize);
     if (isSelectionSort) {
-        PrintResult(CalculateSelectionSort(array, true, arraySize), array, isStatic);
-        PrintResult(CalculateSelectionSort(array, true, arraySize), array, isStatic);
-        PrintResult(CalculateSelectionSort(array, false, arraySize), array, isStatic);
+        FunctionResult AscendingSelectionSortFirst = CalculateSelectionSort(array, true, arraySize);
+        PrintResult(AscendingSelectionSortFirst, array, isStaticArray);
+
+        FunctionResult AscendingSelectionSortSecond = CalculateSelectionSort(array, true, arraySize);
+        PrintResult(AscendingSelectionSortSecond, array, isStaticArray);
+
+        FunctionResult DiscendingSelectionSort = CalculateSelectionSort(array, false, arraySize);
+        PrintResult(DiscendingSelectionSort, array, isStaticArray);
     } else {
-        PrintResult(CalculateBubbleSort(array, true, arraySize), array, isStatic);
-        PrintResult(CalculateBubbleSort(array, true, arraySize), array, isStatic);
-        PrintResult(CalculateBubbleSort(array, false, arraySize), array, isStatic);
+        FunctionResult AscendingBubbleSortFirst = CalculateBubbleSort(array, true, arraySize);
+        PrintResult(AscendingBubbleSortFirst, array, isStaticArray);
+
+        FunctionResult AscendingBubbleSortSecond = CalculateBubbleSort(array, true, arraySize);
+        PrintResult(AscendingBubbleSortSecond, array, isStaticArray);
+
+        FunctionResult DiscendingBubbleSort = CalculateBubbleSort(array, false, arraySize);
+        PrintResult(DiscendingBubbleSort, array, isStaticArray);
     }
 }
 

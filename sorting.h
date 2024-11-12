@@ -5,13 +5,14 @@ const int kStaticArraySize = 10;
 
 enum class ArrayType {
     StaticArray = 1,
-    DynamicArray = 2
+    DynamicArray
 };
 
 struct FunctionResult {
-    int* arr;
     int permutationsCount;
     int comparisonsCount;
+    bool isAscending;
+    size_t arraySize;
 };
 
 [[nodiscard]] FunctionResult CalculateBubbleSort(int* array, bool isAscending, int arraySize);
