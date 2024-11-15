@@ -1,7 +1,8 @@
+#include "sorting.hpp"
 #include <iostream>
 #include <random>
 
-namespace Sorting {
+namespace {
 const int kStaticArraySize = 5;
 
 const int kMinArrayElement = 0;
@@ -10,17 +11,6 @@ const int kMaxArrayElement = 99;
 const int kRangeStart = 0;
 
 const int kminPermutationsCount = 0;
-
-enum class ArrayType {
-    StaticArray = 1,
-    DynamicArray
-};
-struct FunctionResult {
-    int permutationsCount;
-    int comparisonsCount;
-    bool isAscending;
-    size_t arraySize;
-};
 
 [[nodiscard]] int* GenerateArray(int* array, size_t arraySize) {
     std::random_device r{};
@@ -52,7 +42,7 @@ void PrintSortingType(bool isSelectionSort) {
     std::cout << "-------------------------------------" << std::endl;
 }
 
-void PrintResult(FunctionResult result, int* array, bool isStaticArray) {
+void PrintResult(Sorting::FunctionResult result, int* array, bool isStaticArray) {
     if (isStaticArray) {
         std::cout << "Статический массив, отсортированный ";
     } else {
@@ -69,6 +59,9 @@ void PrintResult(FunctionResult result, int* array, bool isStaticArray) {
     std::cout << std::endl << "Количестов сравнений: " << result.comparisonsCount << std::endl;
     std::cout << "Количество перестановок: " << result.permutationsCount << std::endl << std::endl;
 }
+}
+
+namespace Sorting {
 
 [[nodiscard]] FunctionResult CalculateBubbleSort(int* array, bool isAscending, size_t arraySize) {
     int comparisonsCount = 0;
@@ -171,6 +164,8 @@ void RunDynamicArraySort(int* array, size_t arraySize) {
 
     delete[] bubbleSortArray;
 }
+
+
 
 void SelectTask() {
     int task{};
