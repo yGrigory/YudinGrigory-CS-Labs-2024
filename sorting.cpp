@@ -63,7 +63,7 @@ void PrintResult(Sorting::FunctionResult result) {
     std::cout << std::endl << "Количестов сравнений: " << result.comparisonsCount << std::endl;
     std::cout << "Количество перестановок: " << result.permutationsCount << std::endl;
 }
-}
+}  // namespace
 
 namespace Sorting {
 
@@ -175,8 +175,6 @@ void RunDynamicArraySort(int* array, size_t arraySize) {
 
     delete[] bubbleSortArray;
 }
-
-
 
 void SelectTask() {
     int task{};
