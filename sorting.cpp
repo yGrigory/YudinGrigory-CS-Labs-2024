@@ -42,22 +42,26 @@ void PrintSortingType(bool isSelectionSort) {
     std::cout << "-------------------------------------" << std::endl;
 }
 
-void PrintResult(Sorting::FunctionResult result, int* array, bool isStaticArray) {
+void PrintArray(int* array, size_t arraySize, bool isStaticArray, bool isAscending) {
     if (isStaticArray) {
         std::cout << "Статический массив, отсортированный ";
     } else {
         std::cout << "Динамический массив, отсортированный ";
     }
-    if (result.isAscending) {
+    if (isAscending) {
         std::cout << "по возрастанию: ";
     } else {
         std::cout << "по убыванию: ";
     }
-    for (size_t i = kRangeStart; i < result.arraySize; ++i) {
+    for (size_t i = kRangeStart; i < arraySize; ++i) {
         std::cout << array[i] << " ";
     }
+    std::cout << std::endl << std::endl;
+}
+
+void PrintResult(Sorting::FunctionResult result) {
     std::cout << std::endl << "Количестов сравнений: " << result.comparisonsCount << std::endl;
-    std::cout << "Количество перестановок: " << result.permutationsCount << std::endl << std::endl;
+    std::cout << "Количество перестановок: " << result.permutationsCount << std::endl;
 }
 }
 
@@ -81,7 +85,7 @@ namespace Sorting {
             break;
         }
     }
-    return FunctionResult{permutationsCount, comparisonsCount, isAscending, arraySize};
+    return FunctionResult{permutationsCount, comparisonsCount};
 }
 
 [[nodiscard]] FunctionResult CalculateSelectionSort(int* array, bool isAscending, size_t arraySize) {
@@ -110,57 +114,64 @@ namespace Sorting {
             std::swap(array[i], array[elementIndex]);
         }
     }
-    return FunctionResult{permutationsCount, comparisonsCount, isAscending, arraySize};
+    return FunctionResult{permutationsCount, comparisonsCount};
 }
 
-void RunMethodsOutputFunctions(int* array, bool isSelectionSort, size_t arraySize, bool isStaticArray) {
-    PrintSortingType(isSelectionSort);
-    PrintSourceArray(array, arraySize);
-    if (isSelectionSort) {
-        FunctionResult AscendingSelectionSortFirst = CalculateSelectionSort(array, true, arraySize);
-        PrintResult(AscendingSelectionSortFirst, array, isStaticArray);
-
-        FunctionResult AscendingSelectionSortSecond = CalculateSelectionSort(array, true, arraySize);
-        PrintResult(AscendingSelectionSortSecond, array, isStaticArray);
-
-        FunctionResult DiscendingSelectionSort = CalculateSelectionSort(array, false, arraySize);
-        PrintResult(DiscendingSelectionSort, array, isStaticArray);
-    } else {
-        FunctionResult AscendingBubbleSortFirst = CalculateBubbleSort(array, true, arraySize);
-        PrintResult(AscendingBubbleSortFirst, array, isStaticArray);
-
-        FunctionResult AscendingBubbleSortSecond = CalculateBubbleSort(array, true, arraySize);
-        PrintResult(AscendingBubbleSortSecond, array, isStaticArray);
-
-        FunctionResult DiscendingBubbleSort = CalculateBubbleSort(array, false, arraySize);
-        PrintResult(DiscendingBubbleSort, array, isStaticArray);
-    }
+void RunOutputFunction(int* array, size_t arraySize, bool isAscending) {
+    FunctionResult sortingResult = CalculateSelectionSort(array, isAscending, arraySize);
+    PrintResult(sortingResult);
 }
 
 void RunStaticArraySort(int* array) {
+    PrintSourceArray(array, kStaticArraySize);
+    PrintSortingType(true);
+
     int selectionSortArray[kStaticArraySize];
-    std::copy(array, array + kStaticArraySize, selectionSortArray);
-
-    RunMethodsOutputFunctions(selectionSortArray, true, kStaticArraySize, true);
-
     int bubbleSortArray[kStaticArraySize];
+    std::copy(array, array + kStaticArraySize, selectionSortArray);
     std::copy(array, array + kStaticArraySize, bubbleSortArray);
 
-    RunMethodsOutputFunctions(bubbleSortArray, false, kStaticArraySize, true);
+    RunOutputFunction(selectionSortArray, kStaticArraySize, true);
+    PrintArray(selectionSortArray, kStaticArraySize, true, true);
+
+    RunOutputFunction(selectionSortArray, kStaticArraySize, true);
+    PrintArray(selectionSortArray, kStaticArraySize, true, true);
+
+    RunOutputFunction(selectionSortArray, kStaticArraySize, false);
+    PrintArray(selectionSortArray, kStaticArraySize, true, false);
+
+    PrintSortingType(false);
+
+    RunOutputFunction(bubbleSortArray, kStaticArraySize, true);
+    PrintArray(bubbleSortArray, kStaticArraySize, true, true);
+
+    RunOutputFunction(bubbleSortArray, kStaticArraySize, true);
+    PrintArray(bubbleSortArray, kStaticArraySize, true, true);
+
+    RunOutputFunction(bubbleSortArray, kStaticArraySize, false);
+    PrintArray(bubbleSortArray, kStaticArraySize, true, false);
 }
 
 void RunDynamicArraySort(int* array, size_t arraySize) {
-    int* selectionSortArray = new int[arraySize];
-    std::copy(array, array + arraySize, selectionSortArray);
+    PrintSortingType(true);
+    PrintSourceArray(array, arraySize);
 
-    RunMethodsOutputFunctions(selectionSortArray, true, arraySize, false);
+    int* selectionSortArray = new int[arraySize];
+    int* bubbleSortArray = new int[arraySize];
+    std::copy(array, array + arraySize, selectionSortArray);
+    std::copy(array, array + arraySize, bubbleSortArray);
+
+    RunOutputFunction(selectionSortArray, arraySize, true);
+    RunOutputFunction(selectionSortArray, arraySize, true);
+    RunOutputFunction(selectionSortArray, arraySize, false);
 
     delete[] selectionSortArray;
 
-    int* bubbleSortArray = new int[arraySize];
-    std::copy(array, array + arraySize, bubbleSortArray);
+    PrintSortingType(true);
 
-    RunMethodsOutputFunctions(bubbleSortArray, false, arraySize, false);
+    RunOutputFunction(bubbleSortArray, arraySize, true);
+    RunOutputFunction(bubbleSortArray, arraySize, true);
+    RunOutputFunction(bubbleSortArray, arraySize, false);
 
     delete[] bubbleSortArray;
 }

@@ -13,8 +13,6 @@ enum class ArrayType {
 struct FunctionResult {
     int permutationsCount;
     int comparisonsCount;
-    bool isAscending;
-    size_t arraySize;
 };
 
 [[nodiscard]] FunctionResult CalculateBubbleSort(int* array, bool isAscending, size_t arraySize);
