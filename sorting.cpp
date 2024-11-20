@@ -20,6 +20,12 @@ const int kMaxArrayElement = 99;
     return array;
 }
 
+void CopyArray(int* sourceArray, int* newArray, size_t arraySize) {
+    for (size_t i = 0; i < arraySize; ++i) {
+        newArray[i] = sourceArray[i];
+    }
+}
+
 void PrintSourceArray(int* array, size_t arraySize) {
     std::cout << "Исходный массив: ";
     for (size_t i = 0; i < arraySize; ++i) {
@@ -64,54 +70,44 @@ void PrintResult(Sorting::FunctionResult result) {
 namespace Sorting {
 
 [[nodiscard]] FunctionResult CalculateBubbleSort(int* array, bool isAscending, size_t arraySize) {
-    int comparisonsCount = 0;
     int permutationsCount = 0;
-
+    int comparisonsCount = 0;
     for (size_t i = 0; i < arraySize - 1; ++i) {
-        bool isSorted = true;
+        bool swapped = false;
         for (size_t j = 0; j < arraySize - i - 1; ++j) {
-            ++comparisonsCount;
-            if ((isAscending && array[j + 1] < array[j]) || (!isAscending && array[j + 1] > array[j])) {
+            if ((array[j] > array[j + 1] && isAscending) || (array[j] < array[j + 1] && !isAscending)) {
                 std::swap(array[j], array[j + 1]);
                 ++permutationsCount;
-                isSorted = false;
+                swapped = true;
             }
+            ++comparisonsCount;
         }
-        if (isSorted) {
+        if (!swapped) {
             break;
         }
     }
-    FunctionResult result = FunctionResult{permutationsCount, comparisonsCount};
+
+    FunctionResult result = {permutationsCount, comparisonsCount};
     return result;
 }
 
 [[nodiscard]] FunctionResult CalculateSelectionSort(int* array, bool isAscending, size_t arraySize) {
-    int comparisonsCount = 0;
     int permutationsCount = 0;
-
+    int comarisonsCount = 0;
     for (size_t i = 0; i < arraySize - 1; ++i) {
-        size_t elementIndex = i;
-        if (isAscending) {
-            for (size_t j = i + 1; j < arraySize; ++j) {
-                ++comparisonsCount;
-                if (array[j] < array[elementIndex]) {
-                    elementIndex = j;
-                    ++permutationsCount;
-                }
+        size_t changeIndex = i;
+        for (size_t j = i + 1; j < arraySize; ++j) {
+            if ((array[j] < array[changeIndex] && isAscending) || (array[j] > array[changeIndex] && !isAscending)) {
+                changeIndex = j;
             }
-            std::swap(array[i], array[elementIndex]);
-        } else {
-            for (size_t j = i + 1; j < arraySize; ++j) {
-                ++comparisonsCount;
-                if (array[j] > array[elementIndex]) {
-                    elementIndex = j;
-                    ++permutationsCount;
-                }
-            }
-            std::swap(array[i], array[elementIndex]);
+            ++comarisonsCount;
+        }
+        if (changeIndex != i) {
+            std::swap(array[i], array[changeIndex]);
+            ++permutationsCount;
         }
     }
-    FunctionResult result = FunctionResult{permutationsCount, comparisonsCount};
+    FunctionResult result = {permutationsCount, comarisonsCount};
     return result;
 }
 
@@ -132,8 +128,9 @@ void RunStaticArraySort(int* array) {
 
     int selectionSortArray[kStaticArraySize];
     int bubbleSortArray[kStaticArraySize];
-    std::copy(array, array + kStaticArraySize, selectionSortArray);
-    std::copy(array, array + kStaticArraySize, bubbleSortArray);
+
+    CopyArray(array, selectionSortArray, kStaticArraySize);
+    CopyArray(array, bubbleSortArray, kStaticArraySize);
 
     RunOutputFunction(selectionSortArray, kStaticArraySize, true, true);
     PrintArray(selectionSortArray, kStaticArraySize, true, true);
@@ -162,8 +159,9 @@ void RunDynamicArraySort(int* array, size_t arraySize) {
 
     int* selectionSortArray = new int[arraySize];
     int* bubbleSortArray = new int[arraySize];
-    std::copy(array, array + arraySize, selectionSortArray);
-    std::copy(array, array + arraySize, bubbleSortArray);
+
+    CopyArray(array, selectionSortArray, arraySize);
+    CopyArray(array, bubbleSortArray, arraySize);
 
     RunOutputFunction(selectionSortArray, arraySize, true, true);
     RunOutputFunction(selectionSortArray, arraySize, true, true);
