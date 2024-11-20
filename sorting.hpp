@@ -3,7 +3,6 @@
 #include <iostream>
 
 namespace Sorting {
-const int kStaticArraySize = 10;
 
 enum class ArrayType {
     StaticArray = 1,
