@@ -85,7 +85,8 @@ namespace Sorting {
             break;
         }
     }
-    return FunctionResult{permutationsCount, comparisonsCount};
+    FunctionResult result = FunctionResult{permutationsCount, comparisonsCount};
+    return result;
 }
 
 [[nodiscard]] FunctionResult CalculateSelectionSort(int* array, bool isAscending, size_t arraySize) {
@@ -114,7 +115,8 @@ namespace Sorting {
             std::swap(array[i], array[elementIndex]);
         }
     }
-    return FunctionResult{permutationsCount, comparisonsCount};
+    FunctionResult result = FunctionResult{permutationsCount, comparisonsCount};
+    return result;
 }
 
 void RunOutputFunction(int* array, size_t arraySize, bool isAscending) {
