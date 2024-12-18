@@ -17,7 +17,7 @@ struct CharVector {
 
 struct KeysVector {
     size_t size{};
-    bool createdSuccessfully{};
+    bool isCreatedSuccessfully{};
     int* vector{};
 };
 

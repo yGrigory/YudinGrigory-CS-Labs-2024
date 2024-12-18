@@ -8,7 +8,7 @@ const size_t kGrowthFactor = 2;
 
 void ResizeVector(Vector::IntVector& vector) {
     if (!vector.vector) {
-        throw std::runtime_error("invalid vector");
+        throw std::runtime_error("Некорректный вектор");
     }
 
     size_t newVectorSize = vector.capacity * kGrowthFactor;
@@ -16,17 +16,17 @@ void ResizeVector(Vector::IntVector& vector) {
 
     std::copy(vector.vector, vector.vector + vector.size, buffer);
 
-    int* oldVector = vector.vector;
+    int* prevVector = vector.vector;
     vector.vector = buffer;
 
     vector.capacity = newVectorSize;
 
-    delete[] oldVector;
+    delete[] prevVector;
 }
 
 void ResizeVector(Vector::CharVector& vector) {
     if (!vector.vector) {
-        throw std::runtime_error("invalid vector");
+        throw std::runtime_error("Некорректный вектор");
     }
 
     size_t newVectorSize = vector.capacity * kGrowthFactor;
@@ -34,12 +34,12 @@ void ResizeVector(Vector::CharVector& vector) {
 
     std::copy(vector.vector, vector.vector + vector.size, buffer);
 
-    char* oldVector = vector.vector;
+    char* prevVector = vector.vector;
     vector.vector = buffer;
 
     vector.capacity = newVectorSize;
 
-    delete[] oldVector;
+    delete[] prevVector;
 }
 }  // namespace
 
@@ -77,7 +77,7 @@ void DeleteVector(CharVector& vector) {
 void DeleteVector(KeysVector& vector) {
     vector.size = 0;
 
-    vector.createdSuccessfully = false;
+    vector.isCreatedSuccessfully = false;
 
     delete[] vector.vector;
 
@@ -86,7 +86,7 @@ void DeleteVector(KeysVector& vector) {
 
 void PushBack(IntVector& vector, int element) {
     if (!vector.vector) {
-        throw std::runtime_error("invalid vector");
+        throw std::runtime_error("Некорректный вектор");
     }
 
     if (vector.size >= vector.capacity) {
@@ -98,7 +98,7 @@ void PushBack(IntVector& vector, int element) {
 
 void PushBack(CharVector& vector, char element) {
     if (!vector.vector) {
-        throw std::runtime_error("invalid vector");
+        throw std::runtime_error("Некорректный вектор");
     }
 
     if (vector.size >= vector.capacity) {

@@ -7,7 +7,7 @@
 #include <iostream>
 
 namespace {
-const int kRequiredArgsNumber = 5;
+const int kRequiredArgsCount = 5;
 const int kSourceFileIndex = 1;
 const int kKeysFileIndex = 2;
 const int kEncryptedFileIndex = 3;
@@ -62,7 +62,7 @@ void WriteFile(const char* filename, const Vector::CharVector& content) {
 
 void Encrypt(const Vector::CharVector& source, Vector::CharVector& destination, const Vector::KeysVector& keysVector,
              Encryption::Character* characterStatistics) {
-    if (!source.vector || !destination.vector || !keysVector.createdSuccessfully || !keysVector.vector) {
+    if (!source.vector || !destination.vector || !keysVector.isCreatedSuccessfully || !keysVector.vector) {
         return;
     }
 
@@ -84,7 +84,7 @@ void Encrypt(const Vector::CharVector& source, Vector::CharVector& destination, 
 }
 
 void Decrypt(const Vector::CharVector& source, Vector::CharVector& destination, const Vector::KeysVector& keysVector) {
-    if (!source.vector || !destination.vector || !keysVector.createdSuccessfully || !keysVector.vector) {
+    if (!source.vector || !destination.vector || !keysVector.isCreatedSuccessfully || !keysVector.vector) {
         return;
     }
 
@@ -121,7 +121,7 @@ void PrintTableRows(const Encryption::Character* characterStatistics, const Vect
     const int fiveCharWidth = 5;
 
     if (startIndex >= 0 && startIndex < encounteredCharacters.size) {
-        std::cout << "\n Символ | Код в таблице ASCII | Сколько раз встретился в тексте | Количество различных шифрований ";
+        std::cout << "\n Символ | Код в ASCII | Сколько раз встретился в тексте | Количество различных шифрований ";
         std::cout << "\n--------------------------------------------------------------------------------------------------\n";
     }
 
@@ -164,8 +164,7 @@ void PrintStatisticsTable(const Encryption::Character* characterStatistics, size
         if (startIndex >= 0 && (answer == 'd' || answer == 'u')) {
             PrintTableRows(characterStatistics, encounteredCharacters, startIndex, endIndex);
         }
-        std::cout << "Введите символ d, чтобы продолжить вывести следующие строки, символ u, чтобы вывести предыдущие строки, символ f, чтобы "
-                     "закончить вывод таблицы\n";
+        std::cout << "d - вывести следующие строки\nu - вывести предыдущие строки\nf - закончить вывод таблицы\n";
         std::cin >> answer;
         if (answer == 'd' && endIndex < encounteredCharacters.size) {
             startIndex += rowsNumber;
@@ -191,8 +190,7 @@ void PrintCharacterStatistics(const Encryption::Character* characterStatistics, 
     char character{};
     int characterCode{};
     while (answer != 'f') {
-        std::cout << "Введите символ c, чтобы вывести статику по символу, символ n, чтобы вывести статистику по коду символа, символ f, чтобы не "
-                     "выводить статистику\n";
+        std::cout << "c - вывести статистику по символу\nn - вывести статистику по коду\nf - не выводить статистику\n";
         std::cin >> answer;
         if (answer != 'c' && answer != 'n' && answer != 'f') {
             std::cout << "Введены некорректные данные\n";
@@ -232,7 +230,7 @@ void PrintCharacterStatistics(const Encryption::Character* characterStatistics, 
 namespace Encryption {
 
 void PrintStatistics(const Vector::KeysVector& keysVector, const Encryption::Character* characterStatistics, size_t size) {
-    if (!characterStatistics || !keysVector.createdSuccessfully || !keysVector.vector) {
+    if (!characterStatistics || !keysVector.isCreatedSuccessfully || !keysVector.vector) {
         return;
     }
 
@@ -247,8 +245,7 @@ void PrintStatistics(const Vector::KeysVector& keysVector, const Encryption::Cha
 
     char answer{};
     while (answer != 'e') {
-        std::cout << "Введите символ t, чтобы вывести таблицу статистики символов исходного текста, символ c, чтобы вывести статистку о конкретном "
-                     "символе, символ e, чтобы завершить вывод статистики\n";
+        std::cout << "t - вывести таблицу статистики по исходному тексту\nc - вывести статистику о конкретном символе\ne - завершить вывод статистики\n";
         std::cin >> answer;
 
         if (answer != 't' && answer != 'c' && answer != 'e') {
@@ -261,17 +258,17 @@ void PrintStatistics(const Vector::KeysVector& keysVector, const Encryption::Cha
     }
 }
 
-Vector::KeysVector CreateKeysArray(const char* keysFilename) {
-    if (!keysFilename) {
-        return {.createdSuccessfully = false};
+Vector::KeysVector CreateKeysArray(const char* keysFile) {
+    if (!keysFile) {
+        return {.isCreatedSuccessfully = false};
     }
 
     Vector::CharVector keysFileContent = Vector::CreateCharVector();
-    ReadFile(keysFilename, keysFileContent);
+    ReadFile(keysFile, keysFileContent);
 
     Vector::IntVector keysVector = Vector::CreateIntVector();
 
-    bool wordEnded = false;
+    bool isWordEnded = false;
 
     int wordLength{};
     int wordCode{};
@@ -280,48 +277,36 @@ Vector::KeysVector CreateKeysArray(const char* keysFilename) {
         char character = keysFileContent.vector[i];
 
         if (character == ' ' || character == '\n' || std::ispunct(character)) {
-            wordEnded = true;
+            isWordEnded = true;
         } else {
             ++wordLength;
             wordCode += static_cast<int>(keysFileContent.vector[i]);
         }
 
-        if (wordEnded || wordLength == kMaxWordLength) {
+        if (isWordEnded || wordLength == kMaxWordLength) {
             if (wordLength > 0) {
                 Vector::PushBack(keysVector, wordCode);
                 wordLength = 0;
                 wordCode = 0;
             }
 
-            wordEnded = false;
+            isWordEnded = false;
         }
     }
 
     Vector::DeleteVector(keysFileContent);
 
-    return {.size = keysVector.size, .createdSuccessfully = true, .vector = keysVector.vector};
+    return {.size = keysVector.size, .isCreatedSuccessfully = true, .vector = keysVector.vector};
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-void EncryptFile(const char* sourceFilename, const char* destinationFilename, const Vector::KeysVector& keysVector,
+void EncryptFile(const char* sourceFile, const char* destinationFilename, const Vector::KeysVector& keysVector,
                  Encryption::Character* characterStatistics) {
-    if (!sourceFilename || !destinationFilename || !keysVector.vector) {
+    if (!sourceFile || !destinationFilename || !keysVector.vector) {
         return;
     }
 
     Vector::CharVector sourceFileContent = Vector::CreateCharVector();
-    ReadFile(sourceFilename, sourceFileContent);
+    ReadFile(sourceFile, sourceFileContent);
 
     Vector::CharVector encryptedSourceFileContent = Vector::CreateCharVector();
     Encrypt(sourceFileContent, encryptedSourceFileContent, keysVector, characterStatistics);
@@ -332,13 +317,13 @@ void EncryptFile(const char* sourceFilename, const char* destinationFilename, co
     Vector::DeleteVector(encryptedSourceFileContent);
 }
 
-void DecryptFile(const char* sourceFilename, const char* destinationFilename, const Vector::KeysVector& keysVector) {
-    if (!sourceFilename || !destinationFilename || !keysVector.vector || !keysVector.createdSuccessfully) {
+void DecryptFile(const char* sourceFile, const char* destinationFilename, const Vector::KeysVector& keysVector) {
+    if (!sourceFile || !destinationFilename || !keysVector.vector || !keysVector.isCreatedSuccessfully) {
         return;
     }
 
     Vector::CharVector encryptedSourceFileContent = Vector::CreateCharVector();
-    ReadFile(sourceFilename, encryptedSourceFileContent);
+    ReadFile(sourceFile, encryptedSourceFileContent);
 
     Vector::CharVector decryptedSourceFileContent = Vector::CreateCharVector();
     Decrypt(encryptedSourceFileContent, decryptedSourceFileContent, keysVector);
@@ -354,27 +339,27 @@ void StartApp(int argc, char** argv) {
         return;
     }
 
-    if (argc < kRequiredArgsNumber) {
+    if (argc < kRequiredArgsCount) {
         std::cout << "Введено недостаточное количество данных";
         return;
     }
 
-    char* sourceFileName = argv[kSourceFileIndex];
-    char* keysFilename = argv[kKeysFileIndex];
-    char* encryptedFileName = argv[kEncryptedFileIndex];
-    char* decryptedFileName = argv[kDecryptedFileIndex];
+    char* sourceFile = argv[kSourceFileIndex];
+    char* keysFile = argv[kKeysFileIndex];
+    char* encryptedFile = argv[kEncryptedFileIndex];
+    char* decryptedFile = argv[kDecryptedFileIndex];
 
-    Vector::KeysVector keysVector = CreateKeysArray(keysFilename);
+    Vector::KeysVector keysVector = CreateKeysArray(keysFile);
 
-    if (!keysVector.createdSuccessfully) {
-        std::cout << "Не удалось определить ключи шифрования";
+    if (!keysVector.isCreatedSuccessfully) {
+        std::cout << "Ключи не найдены";
         return;
     }
 
     Character characterStatistics[kCharactesNumber]{};
 
-    EncryptFile(sourceFileName, encryptedFileName, keysVector, characterStatistics);
-    DecryptFile(encryptedFileName, decryptedFileName, keysVector);
+    EncryptFile(sourceFile, encryptedFile, keysVector, characterStatistics);
+    DecryptFile(encryptedFile, decryptedFile, keysVector);
 
     PrintStatistics(keysVector, characterStatistics, kCharactesNumber);
 

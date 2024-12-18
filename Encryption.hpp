@@ -13,11 +13,11 @@ struct Character {
 
 void StartApp(int argc, char** argv);
 
-[[nodiscard]] Vector::KeysVector CreateKeysArray(const char* keysFilename);
+[[nodiscard]] Vector::KeysVector CreateKeysArray(const char* keysFile);
 
-void EncryptFile(const char* sourceFilename, const char* destinationFilename, const Vector::KeysVector& keysVector,
+void EncryptFile(const char* sourceFile, const char* destinationFile, const Vector::KeysVector& keysVector,
                  Encryption::Character* characterStatistics);
-void DecryptFile(const char* sourceFilename, const char* destinationFilename, const Vector::KeysVector& keysVector);
+void DecryptFile(const char* sourceFile, const char* destinationFile, const Vector::KeysVector& keysVector);
 
 void PrintStatistics(const Vector::KeysVector& keysVector, const Encryption::Character* characterStatistics, size_t size);
 }  // namespace Encryption
