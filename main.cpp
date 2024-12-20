@@ -3,11 +3,6 @@
 #include <iostream>
 
 namespace {
-const int kTask1 = 1;
-const int kTask2 = 2;
-const int kTask3 = 3;
-const int kTask4 = 4;
-
 const int kTask3WidthX = 12;
 const int kTask3WidthY = 12;
 const int kTask3WidthS = 12;
@@ -16,7 +11,6 @@ const int kTask3WidthN = 4;
 const int kTask3PrecisionX = 1;
 const int kTask3PrecisionY = 8;
 const int kTask3PrecisionS = 8;
-const int kTask3PrecisionN = 0;
 }  // namespace
 
 void Task1() {
