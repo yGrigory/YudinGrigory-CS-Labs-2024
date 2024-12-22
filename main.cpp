@@ -1,7 +1,7 @@
-#include "Encryption.hpp"
+#include "Integral.hpp"
 
-int main(int argc, char** argv) {
-    Encryption::StartApp(argc, argv);
+int main(int, char**) {
+    IntegralSolution::LaunchApp();
 
     return 0;
 }
