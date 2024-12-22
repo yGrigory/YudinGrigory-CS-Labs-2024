@@ -1,7 +1,7 @@
-#include "Integral.hpp"
+#include "Logic.hpp"
 
 int main(int, char**) {
-    IntegralSolution::LaunchApp();
+    AppLogic::StartApp();
 
     return 0;
 }
