@@ -155,7 +155,6 @@ void RunStaticArraySort(int* array) {
 
 void RunDynamicArraySort(int* array, size_t arraySize) {
     PrintSortingType(true);
-    PrintSourceArray(array, arraySize);
 
     int* selectionSortArray = new int[arraySize];
     int* bubbleSortArray = new int[arraySize];
