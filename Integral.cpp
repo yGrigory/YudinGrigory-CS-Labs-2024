@@ -71,7 +71,7 @@ const int kFunctionsNumber = 4;
     std::cin >> precision;
     return precision;
 }
-} // namespace
+}  // namespace
 
 namespace TableStatistic {
 void PrintTable(IntegralSolution::FunctionData functionData[], int functionsAmount, int precision) {
@@ -95,7 +95,7 @@ void PrintTable(IntegralSolution::FunctionData functionData[], int functionsAmou
     std::cout << sideSymbol;
     for (int j = 0; j < columnAmount; j++)
         std::cout << std::setw((columnWidth[j] - size[j]) / 2) << std::setfill(' ') << ' ' << title[j] << std::setw((columnWidth[j] - size[j]) / 2)
-                 << sideSymbol;
+                  << sideSymbol;
     std::cout << std::endl;
 
     for (int i = 0; i < functionsAmount; i++) {
@@ -105,10 +105,10 @@ void PrintTable(IntegralSolution::FunctionData functionData[], int functionsAmou
         std::cout << std::setw(columnWidth[columnAmount - 1]) << connectorSymbol << std::setfill(' ') << std::endl;
 
         std::cout << sideSymbol << std::setw((int)(columnWidth[0] - std::strlen(functionData[i].nameFunction)) / 2) << ' '
-                 << functionData[i].nameFunction << std::setw((int)(columnWidth[0] - std::strlen(functionData[i].nameFunction)) / 2) << sideSymbol;
+                  << functionData[i].nameFunction << std::setw((int)(columnWidth[0] - std::strlen(functionData[i].nameFunction)) / 2) << sideSymbol;
         std::cout << std::setw(columnWidth[1] - 1) << std::setprecision(precision) << functionData[i].exactValue << sideSymbol
-                 << std::setw(columnWidth[2] - 1) << functionData[i].resultValue << sideSymbol << std::setw(columnWidth[3] - 1)
-                 << functionData[i].iterationCount << sideSymbol << std::endl;
+                  << std::setw(columnWidth[2] - 1) << functionData[i].resultValue << sideSymbol << std::setw(columnWidth[3] - 1)
+                  << functionData[i].iterationCount << sideSymbol << std::endl;
     }
 
     std::cout << connectorSymbol << std::setfill(horizontSymbol);
@@ -116,10 +116,11 @@ void PrintTable(IntegralSolution::FunctionData functionData[], int functionsAmou
         std::cout << std::setw(columnWidth[j]) << connectorSymbol;
     std::cout << std::setw(columnWidth[columnAmount - 1]) << connectorSymbol << std::setfill(' ') << std::endl;
 }
-} // namespace TableStatistic
+}  // namespace TableStatistic
 
 namespace IntegralSolution {
-void CalculateRectangleIntegration(double (*function)(double), FunctionData& functionData, double& leftBoundary, double& rightBoundary, double accuracy) {
+void CalculateRectangleIntegration(double (*function)(double), FunctionData& functionData, double& leftBoundary, double& rightBoundary,
+                                   double accuracy) {
     int numberOfRectangles = 1;
 
     double delta = rightBoundary - leftBoundary;
@@ -151,7 +152,8 @@ void CalculateRectangleIntegration(double (*function)(double), FunctionData& fun
     functionData.iterationCount = numberOfRectangles;
 }
 
-void CalculateTrapezoidIntegration(double (*function)(double), FunctionData& functionData, double& leftBoundary, double& rightBoundary, double accuracy) {
+void CalculateTrapezoidIntegration(double (*function)(double), FunctionData& functionData, double& leftBoundary, double& rightBoundary,
+                                   double accuracy) {
     int numberOfTrapezoids = 1;
 
     double delta = rightBoundary - leftBoundary;
@@ -245,4 +247,4 @@ void LaunchApp() {
         std::cin >> continueExecution;
     }
 }
-} // namespace IntegralSolution
+}  // namespace IntegralSolution
