@@ -143,11 +143,6 @@ void PrintTableRows(const Encryption::Character* characterStatistics, const Vect
     std::cout << '\n';
 }
 
-
-
-
-
-
 void PrintStatisticsTable(const Encryption::Character* characterStatistics, size_t size) {
     if (!characterStatistics) {
         return;
@@ -245,7 +240,8 @@ void PrintStatistics(const Vector::KeysVector& keysVector, const Encryption::Cha
 
     char answer{};
     while (answer != 'e') {
-        std::cout << "t - вывести таблицу статистики по исходному тексту\nc - вывести статистику о конкретном символе\ne - завершить вывод статистики\n";
+        std::cout
+            << "t - вывести таблицу статистики по исходному тексту\nc - вывести статистику о конкретном символе\ne - завершить вывод статистики\n";
         std::cin >> answer;
 
         if (answer != 't' && answer != 'c' && answer != 'e') {
