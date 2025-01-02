@@ -1,7 +1,7 @@
-#include "MatPrinter.hpp"
-#include "Matrix.hpp"
 #include <iostream>
 #include <random>
+#include "MatPrinter.hpp"
+#include "Matrix.hpp"
 
 namespace {
 const int kStaticMatrixSize = 10;
@@ -38,13 +38,6 @@ void RunTask(int n, int m, int precision, bool scientific) {
             matrixB[i][j] = i * base10 + j + 1;
         }
     }
-
-    std::cout << matrixB << std::endl;
-    std::cout << matrixB[1] << "\t" << *matrixB+2 << std::endl;
-    std::cout << matrixB[2][3] << '\t' << *(matrixB+2) << "\t" << *(matrixB+3) + 6 << std::endl;
-    std::cout << *(*(matrixB + 3) - 1) << '\t' << *matrixB[2] - 10 << std::endl;
-    std::cout << --*(matrixB[4] - 6) << '\t' << ++*(*matrixB + 4) << std::endl;
-    std::cout << matrixB[1] + 4 << '\t' << *(matrixB + 3)[2] << '\t' << *matrixB[2] - 1 << std::endl;
 
     double** pointerArray = GetPointerArray(matrixB);
 
