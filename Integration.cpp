@@ -84,12 +84,9 @@ void PrintTable(const Integration::Function* functionsData, const Integration::I
 
     std::cout << "\nИнтегрирование с точностью " << std::pow(kDecimalBase, -precision) << " на отрезке от "
               << integrationSegment.integrationLowerBoundary << " до " << integrationSegment.integrationUpperBoundary << '\n';
-    std::cout << "-----------------------------------------------------------------------------------------------------------------------------------"
-                 "----------\n";
-    std::cout << "|  Функция   |" << "    Интеграл    |" << " Cумма прямоугольников |" << " Итераций для прямоугольников |"
-              << "    Cумма трапеций     |" << "    Итераций для трапеций     |\n";
-    std::cout << "-----------------------------------------------------------------------------------------------------------------------------------"
-                 "----------\n";
+    std::cout << "---------------------------------------------------------------------------------------------------------------------------------------------\n";
+    std::cout << "|  Функция   |" << "    Интеграл    |" << " Cумма прямоугольников |" << " Итераций для прямоугольников |" << "    Cумма трапеций     |"  << "    Итераций для трапеций     |\n";
+    std::cout << "---------------------------------------------------------------------------------------------------------------------------------------------\n";
 
     for (size_t i = 0; i < kFunctionsNumber; ++i) {
         std::cout << std::left << '|' << std::setw(twelveCharsWidth) << functionsData[i].name << '|' << std::setw(sixteenCharsWidth)
@@ -109,8 +106,7 @@ void PrintTable(const Integration::Function* functionsData, const Integration::I
         }
         std::cout << '|' << std::setw(thirtyCharsWidth) << functionsData[i].trapezoidIterationNumber << std::resetiosflags(std::ios::fixed) << "|\n";
 
-        std::cout << "-------------------------------------------------------------------------------------------------------------------------------"
-                     "--------------\n";
+    std::cout << "---------------------------------------------------------------------------------------------------------------------------------------------\n";
     }
 }
 }  // namespace
@@ -155,8 +151,7 @@ void TrapezoidIntegration(Function& functionData, IntegrationSegment integration
 
     double firstSum{};
 
-    double secondSum = functionData.function(integrationSegment.integrationLowerBoundary) +
-                       functionData.function(integrationSegment.integrationLowerBoundary + delta);
+    double secondSum = functionData.function(integrationSegment.integrationLowerBoundary ) + functionData.function(integrationSegment.integrationLowerBoundary + delta);
     secondSum *= delta / 2;
 
     while (std::abs(secondSum - firstSum) / 3 > epsilon & iterationNumber <= kMaxIterationNumber) {
@@ -205,7 +200,7 @@ void RunIntegration() {
 
     for (size_t i = 0; i < kFunctionsNumber; ++i) {
         size_t len = strlen(functionsNames[i]) + 1;
-        functionsData[i].name = new char[len];
+        functionsData[i].name = new char [len];
         strncpy(functionsData[i].name, functionsNames[i], len);
 
         functionsData[i].preciseIntegralValue = preciseIntegralValues[i];
@@ -216,7 +211,7 @@ void RunIntegration() {
 
     PrintTable(functionsData, integrationSegment, precision);
 
-    for (Function element : functionsData) {
+    for (Function element: functionsData) {
         delete element.name;
     }
 }
